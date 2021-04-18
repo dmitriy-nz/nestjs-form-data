@@ -1,0 +1,1 @@
+export const GLOBAL_CONFIG_INJECT_TOKEN: symbol = Symbol();
