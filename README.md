@@ -1,4 +1,4 @@
-#Description
+# Description
 nestjs-form-data is a [NestJS](https://github.com/nestjs/nest) middleware for handling multipart/form-data, which is primarily used for uploading files.
 - Process files and strings, serialize form-data to object
 - Process files in nested objects
@@ -24,7 +24,7 @@ Add the module to your application
 export class AppModule {
 }
 ```
-#Usage
+# Usage
 Apply `@FormDataRequest()` decorator to your controller method
 ```ts
 @Controller()
@@ -50,7 +50,7 @@ export class FormDataTestDto {
 }
 ```
 
-##Configuration
+## Configuration
 You can set the global configuration when connecting the module using the `NestjsFormDataModule.config` method:
 ```ts
 @Module({
@@ -76,19 +76,19 @@ export class NestjsFormDataController {
   }
 }
 ```
-###Configuration fields
+### Configuration fields
 - `storage` - The type of storage logic for the uploaded file  (Default MemoryStoredFile)
 - `fileSystemStoragePath` - The path to the directory for storing temporary files, used only for `storage: FileSystemStoredFile` (Default: /tmp/nestjs-tmp-storage)  
 - `autoDeleteFile` - Automatically delete files after the request ends (Default true)
 - `limits` - [busboy](https://www.npmjs.com/package/busboy#busboy-methods) limits configuration. Constraints in this declaration are handled at the serialization stage, so using these parameters is preferable for performance.
-##File storage types
-###Memory storage
+## File storage types
+### Memory storage
 `MemoryStoredFile` The file is loaded into RAM, files with this storage type are very fast but not suitable for processing large files.
-###File system storage
+### File system storage
 `FileSystemStoredFile` The file is loaded into a temporary directory (see configuration) and is available during the processing of the request. The file is automatically deleted after the request finishes
-###Custom storage types
+### Custom storage types
 You can define a custom type of file storage, for this, inherit your class from `StoredFile`, see examples in the storage directory
-##Validation
+## Validation
 By default, several validators are available with which you can check the file  
 
 `@IsFile()` - Checks if the value is an uploaded file  
@@ -101,8 +101,8 @@ If you need to validate an array of files for size or otherwise, use `each: true
 
 
 
-##Examples
-###FileSystemStoredFile storage configuration
+## Examples
+### FileSystemStoredFile storage configuration
 Controller
 ```ts
 import { FileSystemStoredFile, FormDataRequest } from 'nestjs-form-data';
@@ -132,7 +132,7 @@ export class FormDataTestDto {
 
 }
 ```
-###Validate the array of file
+### Validate the array of file
 ```ts
 import { FileSystemStoredFile, HasMimeType, IsFiles, MaxFileSize } from 'nestjs-form-data';
 
