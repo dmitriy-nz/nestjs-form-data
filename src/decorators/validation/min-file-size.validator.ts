@@ -10,7 +10,7 @@ export function MinFileSize(minSizeBytes: number, validationOptions?: Validation
     validator: {
       validate(value: StoredFile, args: ValidationArguments) {
         const size: number = args.constraints[0];
-        
+
         if (isFile(value)) {
           return value.size >= size;
         }
