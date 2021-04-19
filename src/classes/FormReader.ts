@@ -100,7 +100,7 @@ export class FormReader {
   }
 
   private async loadFile(filename: string, encoding: string, mimetype: string, stream: NodeJS.ReadableStream): Promise<StoredFile> {
-    return await FileSystemStoredFile.create(filename, encoding, mimetype, stream, this.config);
+    return await (this.config['storage'] as any).create(filename, encoding, mimetype, stream, this.config);
   }
 
 
