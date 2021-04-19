@@ -4,6 +4,9 @@
   "description": "",
   "main": "dist/index",
   "types": "dist/index",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rimraf dist && tsc",
@@ -11,6 +14,10 @@
   },
   "author": "dmitriy-nz",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dmitriy-nz/nestjs-form-data.git"
+  },
   "devDependencies": {
     "@types/busboy": "^0.2.3",
     "@types/mkdirp": "^1.0.1",

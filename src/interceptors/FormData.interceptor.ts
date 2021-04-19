@@ -34,10 +34,12 @@ export class FormDataInterceptor implements NestInterceptor {
     try {
       req.body = await formReader.handle();
       return next.handle().pipe(tap(res => {
-        formReader.deleteFiles();
+        if (config.autoDeleteFile)
+          formReader.deleteFiles();
       }));
     } catch (err) {
-      formReader.deleteFiles();
+      if (config.autoDeleteFile)
+        formReader.deleteFiles();
 
       if (err.status && err.response) {
         res.status(err.status);

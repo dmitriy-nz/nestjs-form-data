@@ -14,8 +14,8 @@ export class FileSystemStoredFile extends StoredFile {
 
   static async create(filename, encoding, mimetype, stream: NodeJS.ReadableStream, config: FormDataInterceptorConfig): Promise<FileSystemStoredFile> {
 
-    await mkdirp.native('/tmp/test-storage');
-    const filePath = path.resolve('/tmp/test-storage', filename);
+    await mkdirp.native(config.fileSystemStoragePath);
+    const filePath = path.resolve(config.fileSystemStoragePath, filename);
 
     return new Promise<FileSystemStoredFile>((res, rej) => {
       const outStream = fs.createWriteStream(filePath);
