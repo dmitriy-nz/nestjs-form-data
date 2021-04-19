@@ -36,5 +36,13 @@
     "mkdirp": "^1.0.4",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.6.7"
-  }
+  },
+  "keywords": [
+    "form data",
+    "nestjs form data",
+    "nestjs form data interceptor",
+    "nestjs file upload",
+    "nestjs validate file",
+    "nestjs store file"
+  ]
 }
