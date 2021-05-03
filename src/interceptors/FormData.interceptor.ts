@@ -7,6 +7,7 @@ import { of, throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { GLOBAL_CONFIG_INJECT_TOKEN } from '../config/global-config-inject-token.config';
 import { checkConfig } from '../helpers/check-config';
+import { is } from 'type-is';
 
 
 @Injectable()
@@ -16,7 +17,6 @@ export class FormDataInterceptor implements NestInterceptor {
               private globalConfig: FormDataInterceptorConfig,
               private reflector: Reflector) {
 
-
   }
 
 
@@ -24,6 +24,10 @@ export class FormDataInterceptor implements NestInterceptor {
     const req = context.switchToHttp().getRequest();
     const res = context.switchToHttp().getResponse();
 
+    /** if the request is not multipart, skip **/
+    if (!is(req, ['multipart'])) return next.handle();
+
+    /** merge global config with method level config **/
     const config: FormDataInterceptorConfig = checkConfig(
       this.reflector.get(FORM_DATA_REQUEST_METADATA_KEY, context.getHandler()) || {},
       this.globalConfig,

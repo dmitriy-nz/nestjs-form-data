@@ -12,5 +12,5 @@ export function checkConfig(config: FormDataInterceptorConfig, defaults: FormDat
   if (!config.fileSystemStoragePath)
     config.fileSystemStoragePath = defaults.fileSystemStoragePath;
 
-  return Object.assign(config, defaults);
+  return Object.assign({}, defaults, config);
 }

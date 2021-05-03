@@ -49,8 +49,8 @@ export class FormDataTestDto {
   
 }
 ```
-
 ## Configuration
+### Static configuration 
 You can set the global configuration when connecting the module using the `NestjsFormDataModule.config` method:
 ```ts
 @Module({
@@ -63,6 +63,59 @@ You can set the global configuration when connecting the module using the `Nestj
 export class AppModule {
 }
 ```
+### Async configuration 
+Quite often you might want to asynchronously pass your module options instead of passing them beforehand. 
+In such case, use `configAsync()` method, that provides a couple of various ways to deal with async data.
+
+##### 1. Use factory
+```ts
+NestjsFormDataModule.configAsync({
+  useFactory: () => ({
+    storage: MemoryStoredFile
+  })
+});
+```
+Our factory behaves like every other one (might be async and is able to inject dependencies through inject).
+```ts
+NestjsFormDataModule.configAsync({
+ imports: [ConfigModule],
+  useFactory: async (configService: ConfigService)  => ({
+    storage: MemoryStoredFile,
+    limits: {
+      files: configService.get<number>('files'),
+    }
+  }),
+ inject: [ConfigService],
+});
+```
+##### 2. Use class
+```ts
+NestjsFormDataModule.configAsync({
+  useClass: MyNestJsFormDataConfigService
+});
+```
+Above construction will instantiate `MyNestJsFormDataConfigService` inside `NestjsFormDataModule` and will leverage it 
+to create options object.
+```ts
+export class MyNestJsFormDataConfigService implements NestjsFormDataConfigFactory {
+  configAsync(): Promise<FormDataInterceptorConfig> | FormDataInterceptorConfig {
+    return {
+      storage: FileSystemStoredFile,
+      fileSystemStoragePath: '/tmp/nestjs-fd',
+    };
+  }
+}
+```
+##### 3. Use existing
+```ts
+NestjsFormDataModule.configAsync({
+  imports: [MyNestJsFormDataConfigModule],
+  useExisting: MyNestJsFormDataConfigService
+});
+```
+It works the same as useClass with one critical difference - `NestjsFormDataModule` will lookup imported modules to 
+reuse already created `MyNestJsFormDataConfigService`, instead of instantiating it on its own.
+### Method level configuration
 Or pass the config object while using the decorator on the method
 ```ts
 @Controller()
