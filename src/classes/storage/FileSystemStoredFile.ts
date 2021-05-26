@@ -12,10 +12,10 @@ export class FileSystemStoredFile extends StoredFile {
   size: number;
   path: string;
 
-  static async create(filename, encoding, mimetype, stream: NodeJS.ReadableStream, config: FormDataInterceptorConfig): Promise<FileSystemStoredFile> {
+  static async create(originalName, encoding, mimetype, stream: NodeJS.ReadableStream, config: FormDataInterceptorConfig): Promise<FileSystemStoredFile> {
 
     await mkdirp.native(config.fileSystemStoragePath);
-    const filePath = path.resolve(config.fileSystemStoragePath, filename);
+    const filePath = path.resolve(config.fileSystemStoragePath, originalName);
 
     return new Promise<FileSystemStoredFile>((res, rej) => {
       const outStream = fs.createWriteStream(filePath);
@@ -26,7 +26,7 @@ export class FileSystemStoredFile extends StoredFile {
       outStream.on('error', rej);
       outStream.on('finish', () => {
         const file: FileSystemStoredFile = plainToClass(FileSystemStoredFile, {
-          filename,
+          originalName,
           encoding,
           mimetype,
           path: filePath,
