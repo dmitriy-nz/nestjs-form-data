@@ -1,9 +1,8 @@
-import { FormDataInterceptorConfig } from '../interfaces/FormDataInterceptorConfig';
+import { FormDataInterceptorConfig } from '../interfaces';
 import Busboy from 'busboy';
 import appendField from 'append-field';
 import { BadRequestException } from '@nestjs/common';
-import { StoredFile } from './storage/StoredFile';
-import { FileSystemStoredFile } from './storage/FileSystemStoredFile';
+import { StoredFile } from './storage';
 
 export class FormReader {
   protected busboy: any;
@@ -11,7 +10,6 @@ export class FormReader {
 
   protected result: any = {};
 
-  private handlePromise: Promise<any>;
   private handlePromiseResolve: Function;
   private handlePromiseReject: Function;
 

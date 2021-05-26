@@ -1,3 +1,9 @@
+[![npm version](https://badge.fury.io/js/nestjs-form-data.svg)](https://badge.fury.io/js/nestjs-form-data)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](https://img.shields.io/badge/License-MIT-green.svg)
+
+
+
+
 # Description
 nestjs-form-data is a [NestJS](https://github.com/nestjs/nest) middleware for handling multipart/form-data, which is primarily used for uploading files.
 - Process files and strings, serialize form-data to object
