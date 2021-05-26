@@ -53,14 +53,14 @@ export class FormReader {
     appendField(this.result, fieldName, value);
   }
 
-  private proceedFile(fieldName: string, fileStream: NodeJS.ReadableStream, filename: string, encoding: string, mimetype: string): void {
+  private proceedFile(fieldName: string, fileStream: NodeJS.ReadableStream, originalName: string, encoding: string, mimetype: string): void {
 
-    if (!filename) {
+    if (!originalName) {
       fileStream.resume();
       return;
     }
 
-    const readFilePromise: Promise<void> = this.loadFile(filename, encoding, mimetype, fileStream)
+    const readFilePromise: Promise<void> = this.loadFile(originalName, encoding, mimetype, fileStream)
       .then(f => {
         if ((fileStream as any).truncated) {
           this.busboy.emit('fileSize');
@@ -99,8 +99,8 @@ export class FormReader {
     this.handleDone();
   }
 
-  private async loadFile(filename: string, encoding: string, mimetype: string, stream: NodeJS.ReadableStream): Promise<StoredFile> {
-    return await (this.config['storage'] as any).create(filename, encoding, mimetype, stream, this.config);
+  private async loadFile(originalName: string, encoding: string, mimetype: string, stream: NodeJS.ReadableStream): Promise<StoredFile> {
+    return await (this.config['storage'] as any).create(originalName, encoding, mimetype, stream, this.config);
   }
 
 

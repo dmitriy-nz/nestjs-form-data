@@ -13,12 +13,12 @@ export class MemoryStoredFile extends StoredFile {
   buffer: Buffer;
 
 
-  static create(filename, encoding, mimetype, stream: NodeJS.ReadableStream, config: FormDataInterceptorConfig): Promise<MemoryStoredFile> {
+  static create(originalName, encoding, mimetype, stream: NodeJS.ReadableStream, config: FormDataInterceptorConfig): Promise<MemoryStoredFile> {
     return new Promise<MemoryStoredFile>((res, rej) => {
       stream.pipe(concat({ encoding: 'buffer' }, (buffer: Buffer) => {
 
         const file: MemoryStoredFile = plainToClass(MemoryStoredFile, {
-          filename,
+          originalName,
           encoding,
           mimetype,
           buffer,
