@@ -1,6 +1,6 @@
 {
   "name": "nestjs-form-data",
-  "version": "1.4.5",
+  "version": "1.4.7",
   "description": "",
   "main": "dist/index",
   "types": "dist/index",
@@ -20,6 +20,12 @@
     "url": "git+https://github.com/dmitriy-nz/nestjs-form-data.git"
   },
   "devDependencies": {
+    "@nestjs/common": "^7.3.0",
+    "@nestjs/core": "^7.3.0",
+    "class-transformer": "^0.4.0",
+    "class-validator": "^0.13.1",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^6.6.3",
     "@nestjs/platform-express": "^7.6.17",
     "@nestjs/testing": "^7.6.17",
     "@types/busboy": "^0.2.3",
@@ -34,17 +40,19 @@
     "ts-jest": "^26.5.6",
     "typescript": "^4.2.4"
   },
-  "dependencies": {
-    "@nestjs/common": "^7.6.15",
-    "@nestjs/core": "^7.6.15",
-    "append-field": "^1.0.0",
-    "busboy": "^0.3.1",
+  "peerDependencies": {
+    "@nestjs/common": "^7.3.0",
+    "@nestjs/core": "^7.3.0",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^6.6.3"
+  },
+  "dependencies": {
+    "append-field": "^1.0.0",
+    "busboy": "^0.3.1",
     "concat-stream": "^2.0.0",
     "mkdirp": "^1.0.4",
-    "reflect-metadata": "^0.1.13",
-    "rxjs": "^6.6.7",
     "type-is": "^1.6.18"
   },
   "keywords": [
