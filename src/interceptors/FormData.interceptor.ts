@@ -12,10 +12,10 @@ import { is } from 'type-is';
 
 @Injectable()
 export class FormDataInterceptor implements NestInterceptor {
+  reflector: Reflector = new Reflector();
 
   constructor(@Inject(GLOBAL_CONFIG_INJECT_TOKEN)
-              private globalConfig: FormDataInterceptorConfig,
-              private reflector: Reflector) {
+              private globalConfig: FormDataInterceptorConfig) {
 
   }
 
