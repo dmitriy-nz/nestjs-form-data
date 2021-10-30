@@ -191,7 +191,16 @@ export class FormDataTestDto {
 
 }
 ```
+
+Send request (via Insomnia)  
+
+![image](https://user-images.githubusercontent.com/51157176/139556439-6b709fe8-8d62-41a2-9997-f9b7a2ff3d30.png)
+
+
 ### Validate the array of file
+
+DTO
+
 ```ts
 import { FileSystemStoredFile, HasMimeType, IsFiles, MaxFileSize } from 'nestjs-form-data';
 
@@ -204,5 +213,9 @@ export class FormDataTestDto {
 
 }
 ```
+Send request (via Insomnia)  
+
+![image](https://user-images.githubusercontent.com/51157176/139556545-a8a1232d-3f1d-4325-9eff-98c294736d88.png)
+
 ## License
 [MIT](LICENSE)
