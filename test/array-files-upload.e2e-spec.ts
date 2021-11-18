@@ -20,6 +20,7 @@ describe('Array files uploads', () => {
         { filename: 'file.txt', mimetype: 'text/plain' },
         { filename: 'file.txt', mimetype: 'text/plain' },
       ]);
+
   });
 
   it('Mime type validator', () => {

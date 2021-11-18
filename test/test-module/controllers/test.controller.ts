@@ -25,8 +25,6 @@ export class TestController {
   @FormDataRequest()
   @HttpCode(HttpStatus.OK)
   uploadArrayFiles(@Body() arrayFilesDto: UploadArrayFilesDto) {
-    console.log(arrayFilesDto.files);
-
     return arrayFilesDto.files.map(file => {
       return {
         filename: file.originalName,
