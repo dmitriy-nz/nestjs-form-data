@@ -1,5 +1,5 @@
 import { FormDataInterceptorConfig } from '../interfaces';
-import Busboy from 'busboy';
+import busboy from 'busboy';
 import appendField from 'append-field';
 import { BadRequestException } from '@nestjs/common';
 import { StoredFile } from './storage';
@@ -17,7 +17,7 @@ export class FormReader {
 
 
   constructor(protected req: any, protected config: FormDataInterceptorConfig) {
-    this.busboy = new Busboy({
+    this.busboy = busboy({
       headers: req.headers,
       limits: (config && config.limits) ? config.limits : {},
     });
@@ -51,14 +51,15 @@ export class FormReader {
     appendField(this.result, fieldName, value);
   }
 
-  private proceedFile(fieldName: string, fileStream: NodeJS.ReadableStream, originalName: string, encoding: string, mimetype: string): void {
+  private proceedFile(fieldName: string, fileStream: NodeJS.ReadableStream, info: any): void {
+    const { filename, encoding, mimeType } = info;
 
-    if (!originalName) {
+    if (!filename) {
       fileStream.resume();
       return;
     }
 
-    const readFilePromise: Promise<void> = this.loadFile(originalName, encoding, mimetype, fileStream)
+    const readFilePromise: Promise<void> = this.loadFile(filename, encoding, mimeType, fileStream)
       .then(f => {
         if ((fileStream as any).truncated) {
           this.busboy.emit('fileSize');
@@ -100,6 +101,5 @@ export class FormReader {
   private async loadFile(originalName: string, encoding: string, mimetype: string, stream: NodeJS.ReadableStream): Promise<StoredFile> {
     return await (this.config['storage'] as any).create(originalName, encoding, mimetype, stream, this.config);
   }
-
 
 }
