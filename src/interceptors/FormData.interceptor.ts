@@ -3,7 +3,7 @@ import { Reflector } from '@nestjs/core';
 import { FORM_DATA_REQUEST_METADATA_KEY } from '../decorators/form-data';
 import { FormDataInterceptorConfig } from '../interfaces/FormDataInterceptorConfig';
 import { FormReader } from '../classes/FormReader';
-import { of, throwError } from 'rxjs';
+import { catchError, from, mergeMap, of, throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { GLOBAL_CONFIG_INJECT_TOKEN } from '../config/global-config-inject-token.config';
 import { checkConfig } from '../helpers/check-config';
@@ -35,23 +35,29 @@ export class FormDataInterceptor implements NestInterceptor {
 
     const formReader: FormReader = new FormReader(req, config);
 
-    try {
-      req.body = await formReader.handle();
-      return next.handle().pipe(tap(res => {
+    return from(formReader.handle()).pipe(
+      mergeMap((formReaderResult: any) => {
+        req.body = formReaderResult;
+        return next.handle();
+      }),
+
+      catchError(err => {
         if (config.autoDeleteFile)
           formReader.deleteFiles();
-      }));
-    } catch (err) {
-      if (config.autoDeleteFile)
-        formReader.deleteFiles();
 
-      if (err.status && err.response) {
-        res.status(err.status);
-        return of(err.response);
-      }
+        if (err.status && err.response) {
+          res.status(err.status);
+          return of(err.response);
+        }
 
-      return throwError(err);
-    }
+        return throwError(err);
+      }),
+
+      tap(res => {
+        if (config.autoDeleteFile)
+          formReader.deleteFiles();
+      }),
+    );
 
   }
 }

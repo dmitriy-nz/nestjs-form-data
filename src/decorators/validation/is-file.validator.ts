@@ -18,7 +18,7 @@ export function IsFile(validationOptions?: ValidationOptions): PropertyDecorator
       },
 
       defaultMessage(validationArguments?: ValidationArguments): string {
-        return `${validationArguments.property} does not contain file`;
+        return `Field "${validationArguments.property}" does not contain file`;
       },
     },
   }, validationOptions);
