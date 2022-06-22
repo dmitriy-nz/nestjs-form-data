@@ -39,4 +39,10 @@ describe('Single file uploads', () => {
       .expect(400);
   });
 
+  it('HTTP request with empty form data', () => {
+    return request.default(app.getHttpServer()).post('/single-file')
+      .set('content-type', 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW')
+      .expect(400);
+  });
+
 });

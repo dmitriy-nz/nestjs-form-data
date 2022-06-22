@@ -94,6 +94,11 @@ export class FormReader {
   }
 
   private rejectWithError(err: any): void {
+    if (err?.message === 'Unexpected end of form') {
+      this.rejectWithBadRequest(err.message)
+      return
+    }
+
     this.handlePromiseReject(err);
     this.handleDone();
   }
