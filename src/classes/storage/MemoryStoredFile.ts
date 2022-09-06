@@ -1,26 +1,22 @@
-import { plainToClass, Transform, TransformFnParams } from 'class-transformer';
 import { StoredFile } from './StoredFile';
 import concat from 'concat-stream';
 import { FormDataInterceptorConfig } from '../../interfaces/FormDataInterceptorConfig';
+import { Readable as ReadableStream } from 'node:stream';
+import { ParticleStoredFile } from '../../interfaces/ParticleStoredFile';
+import { Buffer } from 'buffer';
+import { plainToClass } from 'class-transformer';
 
 export class MemoryStoredFile extends StoredFile {
-  mimetype: string;
-  encoding: string;
-  originalName: string;
   size: number;
 
-  @Transform((params: TransformFnParams) => (params.value instanceof Buffer) ? params.value : null)
-  buffer: Buffer;
-
-
-  static create(originalName, encoding, mimetype, stream: NodeJS.ReadableStream, config: FormDataInterceptorConfig): Promise<MemoryStoredFile> {
+  static create(busboyFileMeta: ParticleStoredFile, stream: ReadableStream, config: FormDataInterceptorConfig): Promise<MemoryStoredFile> {
     return new Promise<MemoryStoredFile>((res, rej) => {
       stream.pipe(concat({ encoding: 'buffer' }, (buffer: Buffer) => {
 
         const file: MemoryStoredFile = plainToClass(MemoryStoredFile, {
-          originalName,
-          encoding,
-          mimetype,
+          originalName: busboyFileMeta.originalName,
+          encoding: busboyFileMeta.encoding,
+          busBoyMimeType: busboyFileMeta.mimetype,
           buffer,
           size: buffer.length,
         });

@@ -3,7 +3,9 @@ import { UploadSingleFileDto } from '../dto/UploadSingleFile.dto';
 import { FormDataRequest } from '../../../src/decorators';
 import { UploadArrayFilesDto } from '../dto/UploadArrayFiles.dto';
 import { UploadSingleFileFSStorageDto } from '../dto/UploadSingleFileFSStorage.dto';
-import { FileSystemStoredFile } from '../../../src';
+import { FileSystemStoredFile, MemoryStoredFile } from '../../../src';
+import { ExtValidatorDto } from '../dto/ExtValidator.dto';
+import { MimeTypeValidatorDto } from '../MimeTypeValidator.dto';
 
 @Controller('')
 export class TestController {
@@ -47,13 +49,42 @@ export class TestController {
 
   @Post('auto-delete-single-file-busboy')
   @UsePipes(ValidationPipe)
-  @FormDataRequest({ autoDeleteFile: true, storage: FileSystemStoredFile, limits: {fileSize: 5}})
+  @FormDataRequest({ autoDeleteFile: true, storage: FileSystemStoredFile, limits: { fileSize: 5 } })
   @HttpCode(HttpStatus.OK)
   uploadSingleWithAutoDeleteFileBusboySizeLimit(@Body() singleFileDto: UploadSingleFileFSStorageDto) {
     return {
       filename: singleFileDto.file.originalName,
       mimetype: singleFileDto.file.mimetype,
       path: singleFileDto.file.path,
+    };
+  }
+
+
+  @Post('ext-validator')
+  @UsePipes(ValidationPipe)
+  @FormDataRequest()
+  @HttpCode(HttpStatus.OK)
+  extMagicNumValidator(@Body() dto: ExtValidatorDto) {
+    const file: MemoryStoredFile = dto.file || dto.strictMagicNumber || dto.strictContentType;
+
+    return {
+      filename: file.originalName,
+      mimeTypeWithSource: file.mimeTypeWithSource,
+      extWithSource: file.extensionWithSource,
+    };
+  }
+
+  @Post('mime-validator')
+  @UsePipes(ValidationPipe)
+  @FormDataRequest()
+  @HttpCode(HttpStatus.OK)
+  mimeTypeValidator(@Body() dto: MimeTypeValidatorDto) {
+    const file: MemoryStoredFile = dto.file || dto.strictMagicNumber || dto.strictContentType;
+
+    return {
+      filename: file.originalName,
+      mimeTypeWithSource: file.mimeTypeWithSource,
+      extWithSource: file.extensionWithSource,
     };
   }
 

@@ -1,22 +1,20 @@
-import { plainToClass } from 'class-transformer';
 import { StoredFile } from './StoredFile';
 import mkdirp from 'mkdirp';
 import path, { ParsedPath } from 'path';
 import * as fs from 'fs';
 import { FormDataInterceptorConfig } from '../../interfaces/FormDataInterceptorConfig';
 import { uid } from 'uid';
+import { Readable as ReadableStream } from 'node:stream';
+import { ParticleStoredFile } from '../../interfaces/ParticleStoredFile';
+import { plainToClass } from 'class-transformer';
 
 export class FileSystemStoredFile extends StoredFile {
-  mimetype: string;
-  encoding: string;
-  originalName: string;
-  size: number;
   path: string;
+  size: number;
 
-  static async create(originalName, encoding, mimetype, stream: NodeJS.ReadableStream, config: FormDataInterceptorConfig): Promise<FileSystemStoredFile> {
-
+  static async create(busboyFileMeta: ParticleStoredFile, stream: ReadableStream, config: FormDataInterceptorConfig): Promise<FileSystemStoredFile> {
     await mkdirp.native(config.fileSystemStoragePath);
-    const filePath = path.resolve(config.fileSystemStoragePath, FileSystemStoredFile.makeFileNameWithSalt(originalName));
+    const filePath = path.resolve(config.fileSystemStoragePath, FileSystemStoredFile.makeFileNameWithSalt(busboyFileMeta.originalName));
 
     return new Promise<FileSystemStoredFile>((res, rej) => {
       const outStream = fs.createWriteStream(filePath);
@@ -25,9 +23,9 @@ export class FileSystemStoredFile extends StoredFile {
       outStream.on('error', rej);
       outStream.on('finish', () => {
         const file: FileSystemStoredFile = plainToClass(FileSystemStoredFile, {
-          originalName,
-          encoding,
-          mimetype,
+          originalName: busboyFileMeta.originalName,
+          encoding: busboyFileMeta.encoding,
+          busBoyMimeType: busboyFileMeta.mimetype,
           path: filePath,
           size,
         });

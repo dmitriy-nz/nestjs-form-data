@@ -16,6 +16,8 @@ The files in the request are transformed into objects.
 - Memory storage
 - File system storage
 
+[Changelog](blob/master/CHANGELOG.md)
+
 ## Installation
 ```sh
 $ npm install nestjs-form-data
@@ -149,16 +151,62 @@ export class NestjsFormDataController {
 You can define a custom type of file storage, for this, inherit your class from `StoredFile`, see examples in the storage directory
 ## Validation
 By default, several validators are available with which you can check the file  
+Note: If you need to validate an array of files for size or otherwise, use `each: true` property from `ValidationOptions`
 
-`@IsFile()` - Checks if the value is an uploaded file  
-`@IsFiles()` - Checks an array of files  
-`@MaxFileSize()` - Maximum allowed file size  
-`@MinFileSize()` - Minimum allowed file size  
-`@HasMimeType()` - Check the mime type of the file  
+### IsFile
+Checks if the value is an uploaded file
+```ts
+@IsFile(validationOptions?: ValidationOptions)
+```
 
-If you need to validate an array of files for size or otherwise, use `each: true` property from `ValidationOptions`
+### IsFiles
+Checks an array of files, the same as `@IsFile({ each: true })`  
+For convenience
+```ts
+@IsFiles(validationOptions?: ValidationOptions)
+```
 
+### MaxFileSize
+Maximum allowed file size
+```ts
+@MaxFileSize(maxSizeBytes: number, validationOptions?: ValidationOptions)
+```
 
+### MinFileSize
+Minimum allowed file size
+```ts
+@MinFileSize(minSizeBytes: number, validationOptions?: ValidationOptions)
+```
+
+### HasMimeType
+Check the mime type of the file  
+The library uses two sources to get the mime type for the file:
+- [file-type](https://www.npmjs.com/package/file-type) library gets mime-type: gets the mime-type from the [magic number](https://en.wikipedia.org/wiki/Magic_number_(programming)#Magic_numbers_in_files) directly from the binary data, it is a reliable source because it checks the file itself but may not return values for some files
+- content type header from [busboy](https://www.npmjs.com/package/busboy: is a less trusted source because it can be tampered with  
+
+*Priority of receiving mime-type corresponds to the list*
+
+The default is simple mode, which does not check the data source, but you can pass a second argument to strictly check the mime-type and data source.  
+You can also get the mime type and data source via the `get mimeTypeWithSource():MetaFieldSource` getter on the `StoredFile`
+
+```ts
+@HasMimeType(allowedMimeTypes: string[] | string, strictSource?: MetaSource | ValidationOptions, validationOptions?: ValidationOptions)
+```
+
+### HasExtension
+Check the extension type of the file
+The library uses two sources to get the extension for the file:
+- [file-type](https://www.npmjs.com/package/file-type) library gets mime-type: gets the extension from the [magic number](https://en.wikipedia.org/wiki/Magic_number_(programming)#Magic_numbers_in_files) directly from the binary data, it is a reliable source because it checks the file itself but may not return values for some files
+- value after the last dot in file name: is a less trusted source because it can be tampered with
+
+*Priority of receiving extension corresponds to the list*  
+
+The default is simple mode, which does not check the data source, but you can pass a second argument to strictly check the extension and data source.  
+You can also get the extension and data source via the `get extensionWithSource():MetaFieldSource` getter on the `StoredFile`
+
+```ts
+@HasExtension(allowedMimeTypes: string[] | string, strictSource?: MetaSource | ValidationOptions, validationOptions?: ValidationOptions)
+```
 
 ## Examples
 ### FileSystemStoredFile storage configuration

@@ -3,6 +3,8 @@ import busboy from 'busboy';
 import appendField from 'append-field';
 import { BadRequestException } from '@nestjs/common';
 import { StoredFile } from './storage';
+import FileType from 'file-type';
+import { Readable as ReadableStream } from 'node:stream';
 
 export class FormReader {
   protected busboy: any;
@@ -51,7 +53,7 @@ export class FormReader {
     appendField(this.result, fieldName, value);
   }
 
-  private proceedFile(fieldName: string, fileStream: NodeJS.ReadableStream, info: any): void {
+  private proceedFile(fieldName: string, fileStream: ReadableStream, info: any): void {
     const { filename, encoding, mimeType } = info;
 
     if (!filename) {
@@ -95,16 +97,22 @@ export class FormReader {
 
   private rejectWithError(err: any): void {
     if (err?.message === 'Unexpected end of form') {
-      this.rejectWithBadRequest(err.message)
-      return
+      this.rejectWithBadRequest(err.message);
+      return;
     }
 
     this.handlePromiseReject(err);
     this.handleDone();
   }
 
-  private async loadFile(originalName: string, encoding: string, mimetype: string, stream: NodeJS.ReadableStream): Promise<StoredFile> {
-    return await (this.config['storage'] as any).create(originalName, encoding, mimetype, stream, this.config);
+  private async loadFile(originalName: string, encoding: string, mimetype: string, stream: ReadableStream): Promise<StoredFile> {
+    const streamWithFileType = await FileType.stream(stream);
+    const storedFile = await (this.config['storage'] as any).create({
+      originalName,
+      encoding,
+      mimetype,
+    }, streamWithFileType, this.config);
+    storedFile.setFileTypeResult(streamWithFileType.fileType);
+    return storedFile;
   }
-
 }
