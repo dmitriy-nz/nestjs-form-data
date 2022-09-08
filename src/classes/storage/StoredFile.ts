@@ -1,6 +1,6 @@
 import { ParticleStoredFile } from '../../interfaces/ParticleStoredFile';
 import { FormDataInterceptorConfig } from '../../interfaces/FormDataInterceptorConfig';
-import { Readable as ReadableStream } from 'node:stream';
+import { Readable as ReadableStream } from 'stream';
 import { FileTypeResult } from 'file-type/core';
 import { MetaFieldSource, MetaSource } from '../../interfaces/MetaFieldSource';
 import path from 'path';

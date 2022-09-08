@@ -4,7 +4,7 @@ import appendField from 'append-field';
 import { BadRequestException } from '@nestjs/common';
 import { StoredFile } from './storage';
 import FileType from 'file-type';
-import { Readable as ReadableStream } from 'node:stream';
+import { Readable as ReadableStream } from 'stream';
 
 export class FormReader {
   protected busboy: any;

@@ -1,7 +1,7 @@
 import { StoredFile } from './StoredFile';
 import concat from 'concat-stream';
 import { FormDataInterceptorConfig } from '../../interfaces/FormDataInterceptorConfig';
-import { Readable as ReadableStream } from 'node:stream';
+import { Readable as ReadableStream } from 'stream';
 import { ParticleStoredFile } from '../../interfaces/ParticleStoredFile';
 import { Buffer } from 'buffer';
 import { plainToClass } from 'class-transformer';

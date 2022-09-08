@@ -4,7 +4,7 @@ import path, { ParsedPath } from 'path';
 import * as fs from 'fs';
 import { FormDataInterceptorConfig } from '../../interfaces/FormDataInterceptorConfig';
 import { uid } from 'uid';
-import { Readable as ReadableStream } from 'node:stream';
+import { Readable as ReadableStream } from 'stream';
 import { ParticleStoredFile } from '../../interfaces/ParticleStoredFile';
 import { plainToClass } from 'class-transformer';
 
