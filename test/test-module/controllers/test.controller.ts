@@ -13,7 +13,7 @@ export class TestController {
 
   @Post('single-file')
   @UsePipes(ValidationPipe)
-  @FormDataRequest()
+  @FormDataRequest({autoDeleteFile: true})
   @HttpCode(HttpStatus.OK)
   uploadSingleFile(@Body() singleFileDto: UploadSingleFileDto) {
     return {

@@ -46,7 +46,7 @@ export class FormReader {
   }
 
   async deleteFiles(): Promise<void> {
-    await Promise.all(this.files.map(f => f.delete()));
+    await Promise.all(this.files.map(f => f?.delete() || Promise.resolve()));
   }
 
   private proceedField(fieldName: string, value, fieldNameTruncated: boolean, valueTruncated: boolean): void {

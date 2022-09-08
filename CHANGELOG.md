@@ -1,3 +1,12 @@
+### v1.8.2
+- [fix issue 29](https://github.com/dmitriy-nz/nestjs-form-data/issues/29)
+- Cleared the default error handling, which duplicated the standard error handling. Custom error handlers work again
+- Fixed errors when deleting files after processing requests if there is no delete method
+
+### v1.8.1
+- [fix issue 34](https://github.com/dmitriy-nz/nestjs-form-data/issues/34)
+- remove 'node:stream' imports to ensure compatibility
+
 ### v1.8.0
 - Changed incoming arguments for the factory method `StoredFile.create()`
   Your custom classes for saving files will be broken, they will need to be fixed, example in `src/classes/storage/MemoryStoredFile.ts`
