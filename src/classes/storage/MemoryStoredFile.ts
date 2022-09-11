@@ -8,6 +8,7 @@ import { plainToClass } from 'class-transformer';
 
 export class MemoryStoredFile extends StoredFile {
   size: number;
+  buffer: Buffer;
 
   static create(busboyFileMeta: ParticleStoredFile, stream: ReadableStream, config: FormDataInterceptorConfig): Promise<MemoryStoredFile> {
     return new Promise<MemoryStoredFile>((res, rej) => {

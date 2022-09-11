@@ -16,7 +16,7 @@ The files in the request are transformed into objects.
 - Memory storage
 - File system storage
 
-[Changelog](blob/master/CHANGELOG.md)
+[Changelog](CHANGELOG.md)
 
 ## Installation
 ```sh

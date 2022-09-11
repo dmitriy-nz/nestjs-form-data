@@ -1,3 +1,7 @@
+### v1.8.3
+- [fix issue 35](https://github.com/dmitriy-nz/nestjs-form-data/issues/35), added missing field `buffer: Buffer` in class `MemoryStoredFile` in version 1.8.0
+- Fix link to changelog in README.md
+
 ### v1.8.2
 - [fix issue 29](https://github.com/dmitriy-nz/nestjs-form-data/issues/29)
 - Cleared the default error handling, which duplicated the standard error handling. Custom error handlers work again
