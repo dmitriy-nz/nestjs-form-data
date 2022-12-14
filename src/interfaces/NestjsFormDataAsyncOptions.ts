@@ -7,4 +7,10 @@ export interface NestjsFormDataAsyncOptions extends Pick<ModuleMetadata, 'import
   useClass?: Type<NestjsFormDataConfigFactory>;
   useFactory?: (...args: any[]) => Promise<FormDataInterceptorConfig> | FormDataInterceptorConfig;
   inject?: any[];
+  /**
+   * If you want the module to be available globally
+   * Once you import the module and configure it, it will be available globally
+   * Only for async configuration
+   */
+  isGlobal?: boolean;
 }

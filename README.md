@@ -138,6 +138,7 @@ export class NestjsFormDataController {
 }
 ```
 ### Configuration fields
+- `isGlobal` - If you want the module to be available globally. Once you import the module and configure it, it will be available globally
 - `storage` - The type of storage logic for the uploaded file  (Default MemoryStoredFile)
 - `fileSystemStoragePath` - The path to the directory for storing temporary files, used only for `storage: FileSystemStoredFile` (Default: /tmp/nestjs-tmp-storage)  
 - `autoDeleteFile` - Automatically delete files after the request ends (Default true)

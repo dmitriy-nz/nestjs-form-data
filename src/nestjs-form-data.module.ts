@@ -22,6 +22,7 @@ export class NestjsFormDataModule {
 
   static config(config: FormDataInterceptorConfig): DynamicModule {
     return {
+      global: !!config.isGlobal,
       module: NestjsFormDataModule,
       providers: [
         {
@@ -34,6 +35,7 @@ export class NestjsFormDataModule {
 
   static configAsync(options: NestjsFormDataAsyncOptions): DynamicModule {
     return {
+      global: !!options.isGlobal,
       module: NestjsFormDataModule,
       imports: options.imports || [],
       providers: this.createAsyncProviders(options),

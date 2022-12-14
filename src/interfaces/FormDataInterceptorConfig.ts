@@ -6,6 +6,12 @@ export interface FormDataInterceptorConfig {
   fileSystemStoragePath?: string;
   autoDeleteFile?: boolean;
   limits?: FormDataInterceptorLimitsConfig;
+  /**
+   * If you want the module to be available globally
+   * Once you import the module and configure it, it will be available globally
+   * Only for sync configuration
+   */
+  isGlobal?: boolean;
 }
 
 
