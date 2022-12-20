@@ -1,3 +1,7 @@
+### v1.8.7
+- Resolve [Issue 45](https://github.com/dmitriy-nz/nestjs-form-data/issues/45)
+- Added support class-validator "^0.13.2" in peer dependencies
+
 ### v1.8.6
 - Resolve [Issue 41](https://github.com/dmitriy-nz/nestjs-form-data/issues/41)
 - Added the `isGlobal` configuration parameter, which allows you to make the module global for all submodules.

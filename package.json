@@ -1,6 +1,6 @@
 {
   "name": "nestjs-form-data",
-  "version": "1.8.6",
+  "version": "1.8.7",
   "description": "NestJS middleware for handling multipart/form-data, which is primarily used for uploading files",
   "main": "dist/index",
   "types": "dist/index",
@@ -44,7 +44,7 @@
     "@nestjs/common": "^7.0.0 || ^8.0.0 || ^9.0.0",
     "@nestjs/core": "^7.0.0 || ^8.0.0 || ^9.0.0",
     "class-transformer": "^0.4.0 || ^0.5.1",
-    "class-validator": "^0.14.0",
+    "class-validator": "^0.13.2 || ^0.14.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.6.3 || ^7.2.0 || ^7.5.0"
   },
