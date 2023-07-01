@@ -5,7 +5,7 @@ import { UploadArrayFilesDto } from '../dto/UploadArrayFiles.dto';
 import { UploadSingleFileFSStorageDto } from '../dto/UploadSingleFileFSStorage.dto';
 import { FileSystemStoredFile, MemoryStoredFile } from '../../../src';
 import { ExtValidatorDto } from '../dto/ExtValidator.dto';
-import { MimeTypeValidatorDto } from '../MimeTypeValidator.dto';
+import { MimeTypeValidatorDto } from '../dto/MimeTypeValidator.dto';
 
 @Controller('')
 export class TestController {
@@ -79,7 +79,7 @@ export class TestController {
   @FormDataRequest()
   @HttpCode(HttpStatus.OK)
   mimeTypeValidator(@Body() dto: MimeTypeValidatorDto) {
-    const file: MemoryStoredFile = dto.file || dto.strictMagicNumber || dto.strictContentType;
+    const file: MemoryStoredFile = dto.file || dto.strictMagicNumber || dto.strictContentType || dto.any;
 
     return {
       filename: file.originalName,

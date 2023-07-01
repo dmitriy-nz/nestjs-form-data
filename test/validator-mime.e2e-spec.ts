@@ -53,4 +53,16 @@ describe('Mime-type validator', () => {
       });
   });
 
+  // it('[valid] Mime of svg', () => {
+  //   return request.default(app.getHttpServer())
+  //     .post('/mime-validator')
+  //     .attach('any', path.resolve(__dirname, 'test-files', 'ua.svg'))
+  //     .expect(200)
+  //     .expect({
+  //       statusCode: 400,
+  //       message: [ 'File must be of one of the types image/webp' ],
+  //       error: 'Bad Request'
+  //     });
+  // });
+
 });

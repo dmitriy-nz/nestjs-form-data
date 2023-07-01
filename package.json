@@ -1,6 +1,6 @@
 {
   "name": "nestjs-form-data",
-  "version": "1.8.7",
+  "version": "1.9.0",
   "description": "NestJS middleware for handling multipart/form-data, which is primarily used for uploading files",
   "main": "dist/index",
   "types": "dist/index",
@@ -20,10 +20,10 @@
     "url": "git+https://github.com/dmitriy-nz/nestjs-form-data.git"
   },
   "devDependencies": {
-    "@nestjs/common": "^9.0.0",
-    "@nestjs/core": "^9.0.0",
-    "@nestjs/platform-express": "^9.0.0",
-    "@nestjs/testing": "^9.0.0",
+    "@nestjs/common": "^10.0.0",
+    "@nestjs/core": "^10.0.0",
+    "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/testing": "^10.0.0",
     "@types/busboy": "^1.5.0",
     "@types/jest": "^26.0.23",
     "@types/mkdirp": "^1.0.1",
@@ -41,8 +41,8 @@
     "typescript": "^4.2.4"
   },
   "peerDependencies": {
-    "@nestjs/common": "^7.0.0 || ^8.0.0 || ^9.0.0",
-    "@nestjs/core": "^7.0.0 || ^8.0.0 || ^9.0.0",
+    "@nestjs/common": "^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0",
+    "@nestjs/core": "^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0",
     "class-transformer": "^0.4.0 || ^0.5.1",
     "class-validator": "^0.13.2 || ^0.14.0",
     "reflect-metadata": "^0.1.13",
