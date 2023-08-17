@@ -6,6 +6,7 @@ import { UploadSingleFileFSStorageDto } from '../dto/UploadSingleFileFSStorage.d
 import { FileSystemStoredFile, MemoryStoredFile } from '../../../src';
 import { ExtValidatorDto } from '../dto/ExtValidator.dto';
 import { MimeTypeValidatorDto } from '../dto/MimeTypeValidator.dto';
+import { UploadOptionalFileDto } from '../dto/UploadOptionalFile.dto';
 
 @Controller('')
 export class TestController {
@@ -86,6 +87,14 @@ export class TestController {
       mimeTypeWithSource: file.mimeTypeWithSource,
       extWithSource: file.extensionWithSource,
     };
+  }
+
+  @Post('optional')
+  @UsePipes(ValidationPipe)
+  @FormDataRequest()
+  @HttpCode(HttpStatus.OK)
+  optionalFile(@Body() dto: UploadOptionalFileDto) {
+    return dto;
   }
 
 }
