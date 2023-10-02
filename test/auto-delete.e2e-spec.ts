@@ -28,7 +28,6 @@ describe('Auto delete', () => {
       .attach('file', path.resolve(__dirname, 'test-files', 'file-large.txt'))
       .expect(400)
       .expect((res: any) => {
-
         expect(typeof res.body.message[0]).toBe('string');
         expect(fs.existsSync(res.body.message[0])).toBe(false);
       });

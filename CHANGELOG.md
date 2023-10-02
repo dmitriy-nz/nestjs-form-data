@@ -1,12 +1,19 @@
+
+### v1.9.1
+- Resolved [Issue 47](https://github.com/dmitriy-nz/nestjs-form-data/issues/41)
+- Fixed issue with mappings files to same field
+- Removed `node-append-field` library from dependencies and placed in the project (for modification)
+- Added tests for reproduce [Issue 49](https://github.com/dmitriy-nz/nestjs-form-data/issues/49) 
+
 ### v1.9.0
 - Added NestJs 10 support
 
 ### v1.8.7
-- Resolve [Issue 45](https://github.com/dmitriy-nz/nestjs-form-data/issues/45)
+- Resolved [Issue 45](https://github.com/dmitriy-nz/nestjs-form-data/issues/45)
 - Added support class-validator "^0.13.2" in peer dependencies
 
 ### v1.8.6
-- Resolve [Issue 41](https://github.com/dmitriy-nz/nestjs-form-data/issues/41)
+- Resolved [Issue 41](https://github.com/dmitriy-nz/nestjs-form-data/issues/41)
 - Added the `isGlobal` configuration parameter, which allows you to make the module global for all submodules.
 - Added tests to test the `isGlobal` parameter for future support.
 - Updated readme
@@ -30,7 +37,7 @@
 ### v1.8.1
 
 - [fix issue 34](https://github.com/dmitriy-nz/nestjs-form-data/issues/34)
-- remove 'node:stream' imports to ensure compatibility
+- removed 'node:stream' imports to ensure compatibility
 
 ### v1.8.0
 

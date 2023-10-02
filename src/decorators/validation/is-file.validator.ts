@@ -1,5 +1,7 @@
-import { ValidateBy, ValidationArguments, ValidationOptions } from 'class-validator';
+import { IsArray, ValidateBy, ValidationArguments, ValidationOptions } from 'class-validator';
 import { StoredFile } from '../../classes/storage/StoredFile';
+import { applyDecorators } from '@nestjs/common';
+import { Transform, TransformFnParams } from 'class-transformer';
 
 
 export function isFile(value: any): boolean {
@@ -8,7 +10,7 @@ export function isFile(value: any): boolean {
 
 export function IsFile(validationOptions?: ValidationOptions): PropertyDecorator {
 
-  return ValidateBy({
+  const isFileValidator = ValidateBy({
     name: 'IsFile',
     constraints: [],
     validator: {
@@ -22,6 +24,21 @@ export function IsFile(validationOptions?: ValidationOptions): PropertyDecorator
       },
     },
   }, validationOptions);
+
+  if(validationOptions?.each){
+    return applyDecorators(
+      Transform((params: TransformFnParams) => {
+        if(!Array.isArray(params.value)){
+          return [ params.value ];
+        }
+        return params.value;
+      }),
+      isFileValidator,
+      IsArray(Object.assign({},validationOptions || {}, {each: false}))
+    )
+  }
+
+  return isFileValidator
 
 
 }

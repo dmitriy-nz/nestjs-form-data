@@ -10,17 +10,27 @@ describe('Array files uploads', () => {
     app = await createTestModule();
   });
 
-  it('Valid file upload', () => {
+  it('Valid files upload', () => {
     return request.default(app.getHttpServer())
       .post('/array-files')
-      .attach('files[]', path.resolve(__dirname, 'test-files', 'file.txt'))
-      .attach('files[]', path.resolve(__dirname, 'test-files', 'file.txt'))
+      .attach('files', path.resolve(__dirname, 'test-files', 'file.txt'))
+      .attach('files', path.resolve(__dirname, 'test-files', 'file.txt'))
       .expect(200)
       .expect([
         { filename: 'file.txt', mimetype: 'text/plain' },
         { filename: 'file.txt', mimetype: 'text/plain' },
       ]);
+  });
 
+
+  it('Valid single file as array', () => {
+    return request.default(app.getHttpServer())
+      .post('/array-files')
+      .attach('files', path.resolve(__dirname, 'test-files', 'file.txt'))
+      .expect(200)
+      .expect([
+        { filename: 'file.txt', mimetype: 'text/plain' },
+      ]);
   });
 
   it('Mime type validator', () => {

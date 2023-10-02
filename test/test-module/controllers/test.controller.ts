@@ -7,13 +7,15 @@ import { FileSystemStoredFile, MemoryStoredFile } from '../../../src';
 import { ExtValidatorDto } from '../dto/ExtValidator.dto';
 import { MimeTypeValidatorDto } from '../dto/MimeTypeValidator.dto';
 import { UploadOptionalFileDto } from '../dto/UploadOptionalFile.dto';
+import { CustomErrorSingleDto } from '../dto/CustomErrorSingle.dto';
+import { CustomErrorArrayDto } from '../dto/CustomErrorArray.dto';
 
 @Controller('')
 export class TestController {
 
 
   @Post('single-file')
-  @UsePipes(ValidationPipe)
+  @UsePipes(new ValidationPipe({transform: true}))
   @FormDataRequest({autoDeleteFile: true})
   @HttpCode(HttpStatus.OK)
   uploadSingleFile(@Body() singleFileDto: UploadSingleFileDto) {
@@ -24,7 +26,7 @@ export class TestController {
   }
 
   @Post('array-files')
-  @UsePipes(ValidationPipe)
+  @UsePipes(new ValidationPipe({transform: true}))
   @FormDataRequest()
   @HttpCode(HttpStatus.OK)
   uploadArrayFiles(@Body() arrayFilesDto: UploadArrayFilesDto) {
@@ -37,7 +39,7 @@ export class TestController {
   }
 
   @Post('auto-delete-single-file')
-  @UsePipes(ValidationPipe)
+  @UsePipes(new ValidationPipe({transform: true}))
   @FormDataRequest({ autoDeleteFile: true, storage: FileSystemStoredFile })
   @HttpCode(HttpStatus.OK)
   uploadSingleWithAutoDeleteFile(@Body() singleFileDto: UploadSingleFileFSStorageDto) {
@@ -49,7 +51,7 @@ export class TestController {
   }
 
   @Post('auto-delete-single-file-busboy')
-  @UsePipes(ValidationPipe)
+  @UsePipes(new ValidationPipe({transform: true}))
   @FormDataRequest({ autoDeleteFile: true, storage: FileSystemStoredFile, limits: { fileSize: 5 } })
   @HttpCode(HttpStatus.OK)
   uploadSingleWithAutoDeleteFileBusboySizeLimit(@Body() singleFileDto: UploadSingleFileFSStorageDto) {
@@ -62,7 +64,7 @@ export class TestController {
 
 
   @Post('ext-validator')
-  @UsePipes(ValidationPipe)
+  @UsePipes(new ValidationPipe({transform: true}))
   @FormDataRequest()
   @HttpCode(HttpStatus.OK)
   extMagicNumValidator(@Body() dto: ExtValidatorDto) {
@@ -76,7 +78,7 @@ export class TestController {
   }
 
   @Post('mime-validator')
-  @UsePipes(ValidationPipe)
+  @UsePipes(new ValidationPipe({transform: true}))
   @FormDataRequest()
   @HttpCode(HttpStatus.OK)
   mimeTypeValidator(@Body() dto: MimeTypeValidatorDto) {
@@ -90,11 +92,30 @@ export class TestController {
   }
 
   @Post('optional')
-  @UsePipes(ValidationPipe)
+  @UsePipes(new ValidationPipe({transform: true}))
   @FormDataRequest()
   @HttpCode(HttpStatus.OK)
   optionalFile(@Body() dto: UploadOptionalFileDto) {
     return dto;
+  }
+
+  @Post('custom-error-single')
+  @UsePipes(new ValidationPipe({transform: true}))
+  @FormDataRequest()
+  @HttpCode(HttpStatus.OK)
+  customErrorSingle(@Body() dto: CustomErrorSingleDto) {
+    const file: MemoryStoredFile = dto.file;
+    return {
+      filename: file.originalName
+    };
+  }
+
+  @Post('custom-error-array')
+  @UsePipes(new ValidationPipe({transform: true}))
+  @FormDataRequest()
+  @HttpCode(HttpStatus.OK)
+  customErrorArray(@Body() dto: CustomErrorArrayDto) {
+    return dto.files.map( f => ({filename: f.originalName}));
   }
 
 }

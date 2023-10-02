@@ -1,6 +1,6 @@
 {
   "name": "nestjs-form-data",
-  "version": "1.9.0",
+  "version": "1.9.1",
   "description": "NestJS middleware for handling multipart/form-data, which is primarily used for uploading files",
   "main": "dist/index",
   "types": "dist/index",
@@ -10,6 +10,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rimraf dist && tsc",
+    "build:watch": "rimraf dist && tsc --watch",
     "prepublish": "npm run test:e2e && npm run build",
     "test:e2e": "jest --config test/jest-e2e.json"
   },
@@ -49,7 +50,6 @@
     "rxjs": "^6.6.3 || ^7.2.0 || ^7.5.0"
   },
   "dependencies": {
-    "append-field": "^1.0.0",
     "busboy": "^1.6.0",
     "concat-stream": "^2.0.0",
     "file-type": "^16.5.4",
