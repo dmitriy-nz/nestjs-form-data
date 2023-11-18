@@ -77,7 +77,6 @@ async function bootstrap() {
   );
 
   app.register(multipart);
-  app.enableShutdownHooks();
 
   await app.listen(3000);
 }
