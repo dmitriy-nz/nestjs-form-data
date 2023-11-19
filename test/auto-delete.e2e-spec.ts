@@ -1,10 +1,11 @@
 import { INestApplication } from '@nestjs/common';
+import { NestFastifyApplication } from '@nestjs/platform-fastify';
 import * as request from 'supertest';
 import path from 'path';
 import { createTestModule } from './helpers/create-test-module';
 import * as fs from 'fs';
 
-describe('Auto delete', () => {
+describe('Express - Auto delete', () => {
   let app: INestApplication;
 
   beforeEach(async () => {
@@ -12,7 +13,8 @@ describe('Auto delete', () => {
   });
 
   it('Delete after success upload', () => {
-    return request.default(app.getHttpServer())
+    return request
+      .default(app.getHttpServer())
       .post('/auto-delete-single-file')
       .attach('file', path.resolve(__dirname, 'test-files', 'file.txt'))
       .expect(200)
@@ -23,7 +25,8 @@ describe('Auto delete', () => {
   });
 
   it('Delete after failed upload (class validation)', () => {
-    return request.default(app.getHttpServer())
+    return request
+      .default(app.getHttpServer())
       .post('/auto-delete-single-file')
       .attach('file', path.resolve(__dirname, 'test-files', 'file-large.txt'))
       .expect(400)
@@ -32,5 +35,38 @@ describe('Auto delete', () => {
         expect(fs.existsSync(res.body.message[0])).toBe(false);
       });
   });
+});
 
+describe('Fastify - Auto delete', () => {
+  let app: NestFastifyApplication;
+
+  beforeEach(async () => {
+    app = (await createTestModule({
+      fastify: true,
+    })) as NestFastifyApplication;
+  });
+
+  it('Delete after success upload', () => {
+    return request
+      .default(app.getHttpServer())
+      .post('/auto-delete-single-file')
+      .attach('file', path.resolve(__dirname, 'test-files', 'file.txt'))
+      .expect(200)
+      .expect((res: any) => {
+        expect(typeof res.body.path).toBe('string');
+        expect(fs.existsSync(res.body.path)).toBe(false);
+      });
+  });
+
+  it('Delete after failed upload (class validation)', () => {
+    return request
+      .default(app.getHttpServer())
+      .post('/auto-delete-single-file')
+      .attach('file', path.resolve(__dirname, 'test-files', 'file-large.txt'))
+      .expect(400)
+      .expect((res: any) => {
+        expect(typeof res.body.message[0]).toBe('string');
+        expect(fs.existsSync(res.body.message[0])).toBe(false);
+      });
+  });
 });
