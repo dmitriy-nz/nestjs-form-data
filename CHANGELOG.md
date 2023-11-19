@@ -1,4 +1,7 @@
 
+### v1.9.2
+- Added fastify support, thanks to [0x67](https://github.com/dmitriy-nz/nestjs-form-data/pull/53)
+- Resolved [Issue 18](https://github.com/dmitriy-nz/nestjs-form-data/issues/18)
 ### v1.9.1
 - Resolved [Issue 47](https://github.com/dmitriy-nz/nestjs-form-data/issues/41)
 - Fixed issue with mappings files to same field
