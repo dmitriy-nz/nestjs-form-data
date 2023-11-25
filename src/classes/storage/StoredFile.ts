@@ -1,8 +1,7 @@
 import { ParticleStoredFile } from '../../interfaces/ParticleStoredFile';
-import { FormDataInterceptorConfig } from '../../interfaces/FormDataInterceptorConfig';
+import { FormDataInterceptorConfig, MetaFieldSource, MetaSource } from '../../interfaces';
 import { Readable as ReadableStream } from 'stream';
 import { FileTypeResult } from 'file-type/core';
-import { MetaFieldSource, MetaSource } from '../../interfaces/MetaFieldSource';
 import path from 'path';
 
 export abstract class StoredFile implements ParticleStoredFile {

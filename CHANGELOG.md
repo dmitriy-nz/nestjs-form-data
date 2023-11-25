@@ -1,4 +1,6 @@
-
+### v1.9.3
+- Added missed exports: `MetaFieldSource` and MetaSource
+- Resolved [Issue 52](https://github.com/dmitriy-nz/nestjs-form-data/issues/52)
 ### v1.9.2
 - Added fastify support, thanks to [0x67](https://github.com/dmitriy-nz/nestjs-form-data/pull/53)
 - Resolved [Issue 18](https://github.com/dmitriy-nz/nestjs-form-data/issues/18)
