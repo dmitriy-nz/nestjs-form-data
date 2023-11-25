@@ -1,3 +1,5 @@
+### v1.9.4
+- Minor npm publish fix
 ### v1.9.3
 - Added missed exports: `MetaFieldSource` and MetaSource
 - Resolved [Issue 52](https://github.com/dmitriy-nz/nestjs-form-data/issues/52)
@@ -8,7 +10,7 @@
 - Resolved [Issue 47](https://github.com/dmitriy-nz/nestjs-form-data/issues/41)
 - Fixed issue with mappings files to same field
 - Removed `node-append-field` library from dependencies and placed in the project (for modification)
-- Added tests for reproduce [Issue 49](https://github.com/dmitriy-nz/nestjs-form-data/issues/49) 
+- Added tests for reproduce [Issue 49](https://github.com/dmitriy-nz/nestjs-form-data/issues/49)
 
 ### v1.9.0
 - Added NestJs 10 support
