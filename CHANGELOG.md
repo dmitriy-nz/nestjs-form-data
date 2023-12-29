@@ -1,3 +1,6 @@
+### v1.9.5
+- Added missed exports: `MetaFieldSource` and MetaSource
+- Resolved [Issue 52](https://github.com/dmitriy-nz/nestjs-form-data/issues/52)
 ### v1.9.4
 - Minor npm publish fix
 ### v1.9.3
