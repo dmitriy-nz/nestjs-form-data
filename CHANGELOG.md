@@ -1,3 +1,6 @@
+### v1.9.6
+- Updated peer deps: `reflect-metadata^0.2.0`
+- Resolved [Issue 58](https://github.com/dmitriy-nz/nestjs-form-data/issues/58)
 ### v1.9.5
 - Added missed exports: `MetaFieldSource` and MetaSource
 - Resolved [Issue 52](https://github.com/dmitriy-nz/nestjs-form-data/issues/52)
