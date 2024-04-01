@@ -4,7 +4,11 @@ import { isFile } from './is-file.validator';
 import { toArray } from '../../helpers/toArray';
 import { MetaFieldSource, MetaSource } from '../../interfaces/MetaFieldSource';
 
-export function HasMimeType(allowedMimeTypes: string[] | string, strictSource?: MetaSource | ValidationOptions, validationOptions?: ValidationOptions): PropertyDecorator {
+
+export type AllowedMimeTypes = Array<AllowedMimeType>
+export type AllowedMimeType = string | RegExp;
+
+export function HasMimeType(allowedMimeTypes: AllowedMimeTypes | AllowedMimeType, strictSource?: MetaSource | ValidationOptions, validationOptions?: ValidationOptions): PropertyDecorator {
 
   return ValidateBy({
     name: 'HasMimeType',
@@ -12,14 +16,41 @@ export function HasMimeType(allowedMimeTypes: string[] | string, strictSource?: 
     validator: {
 
       validate(value: StoredFile, args: ValidationArguments) {
-        const allowedMimeTypes: string[] = toArray(args.constraints[0]) || [];
+        const allowedMimeTypes: AllowedMimeTypes = toArray(args.constraints[0]) || [];
         const strictSource: MetaSource = (typeof args.constraints[1] === 'string')
           ? args.constraints[1] as MetaSource
           : undefined;
 
         if (isFile(value)) {
           const mimeWithSource: MetaFieldSource = value.mimeTypeWithSource;
-          return allowedMimeTypes.includes(mimeWithSource.value) && (!strictSource || strictSource === mimeWithSource.source);
+          const hasSourceMatch = !strictSource || strictSource === mimeWithSource.source;
+
+          if (!hasSourceMatch) {
+            return false;
+          }
+
+          for (let mimeType of allowedMimeTypes) {
+            switch (true) {
+              case typeof mimeType === 'string' && !mimeType.includes('*'):
+                if (mimeType === mimeWithSource.value) {
+                  return true;
+                }
+                break;
+              case typeof mimeType === 'string' && mimeType.includes('*'):
+                const regex = new RegExp(`^${mimeType as string}$`.replace('*', '.+'));
+                if (regex.test(mimeWithSource.value)) {
+                  return true;
+                }
+                break;
+              case mimeType instanceof RegExp:
+                if ((mimeType as RegExp).test(mimeWithSource.value)) {
+                  return true;
+                }
+                break;
+              default:
+                throw new Error(`Unknown mime type for validate`);
+            }
+          }
         }
 
         return false;

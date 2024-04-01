@@ -1,3 +1,11 @@
+### v1.9.7
+- `autoDeleteFile` config field separated to two fields: `cleanupAfterSuccessHandle` and `cleanupAfterFailedHandle`
+- Extended `HasMimeType` validator, added regex support and asterisk match
+- Extended tests for cover a new functionality
+- Resolved [Issue 56](https://github.com/dmitriy-nz/nestjs-form-data/issues/56)
+- Resolved [Issue 57](https://github.com/dmitriy-nz/nestjs-form-data/issues/57)
+- Updated README.md - described additional information about the usage of new config fields and validations
+
 ### v1.9.6
 - Updated peer deps: `reflect-metadata^0.2.0`
 - Resolved [Issue 58](https://github.com/dmitriy-nz/nestjs-form-data/issues/58)

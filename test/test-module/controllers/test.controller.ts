@@ -40,7 +40,7 @@ export class TestController {
 
   @Post('auto-delete-single-file')
   @UsePipes(new ValidationPipe({transform: true}))
-  @FormDataRequest({ autoDeleteFile: true, storage: FileSystemStoredFile })
+  @FormDataRequest({ storage: FileSystemStoredFile })
   @HttpCode(HttpStatus.OK)
   uploadSingleWithAutoDeleteFile(@Body() singleFileDto: UploadSingleFileFSStorageDto) {
     return {
@@ -52,7 +52,7 @@ export class TestController {
 
   @Post('auto-delete-single-file-busboy')
   @UsePipes(new ValidationPipe({transform: true}))
-  @FormDataRequest({ autoDeleteFile: true, storage: FileSystemStoredFile, limits: { fileSize: 5 } })
+  @FormDataRequest({ storage: FileSystemStoredFile, limits: { fileSize: 5 } })
   @HttpCode(HttpStatus.OK)
   uploadSingleWithAutoDeleteFileBusboySizeLimit(@Body() singleFileDto: UploadSingleFileFSStorageDto) {
     return {
@@ -82,7 +82,7 @@ export class TestController {
   @FormDataRequest()
   @HttpCode(HttpStatus.OK)
   mimeTypeValidator(@Body() dto: MimeTypeValidatorDto) {
-    const file: MemoryStoredFile = dto.file || dto.strictMagicNumber || dto.strictContentType || dto.any;
+    const file: MemoryStoredFile = dto.file || dto.strictMagicNumber || dto.strictContentType || dto.any || dto.filePartial || dto.filePartialArray?.[0] || dto.fileRegex;
 
     return {
       filename: file.originalName,

@@ -58,12 +58,12 @@ export class FormDataInterceptor implements NestInterceptor {
       }),
 
       catchError((err) => {
-        if (config.autoDeleteFile) formReader.deleteFiles();
+        if (config.cleanupAfterFailedHandle || config.autoDeleteFile) formReader.deleteFiles();
         return throwError(err);
       }),
 
-      tap((res) => {
-        if (config.autoDeleteFile) formReader.deleteFiles();
+      tap(() => {
+        if (config.cleanupAfterSuccessHandle || config.autoDeleteFile) formReader.deleteFiles();
       }),
     );
   }

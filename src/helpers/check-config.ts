@@ -2,12 +2,19 @@ import { FormDataInterceptorConfig } from '../interfaces/FormDataInterceptorConf
 import { DEFAULT_CONFIG } from '../config/default.config';
 
 export function checkConfig(config: FormDataInterceptorConfig, defaults: FormDataInterceptorConfig = DEFAULT_CONFIG): FormDataInterceptorConfig {
+  config = Object.assign({}, config)
 
   if (!config.storage)
     config.storage = defaults.storage;
 
-  if (config.autoDeleteFile === undefined)
-    config.autoDeleteFile = defaults.autoDeleteFile;
+
+  if(config.cleanupAfterSuccessHandle === undefined){
+    config.cleanupAfterSuccessHandle = defaults.cleanupAfterSuccessHandle;
+  }
+
+  if(config.cleanupAfterFailedHandle === undefined){
+    config.cleanupAfterFailedHandle = defaults.cleanupAfterFailedHandle;
+  }
 
   if (!config.fileSystemStoragePath)
     config.fileSystemStoragePath = defaults.fileSystemStoragePath;

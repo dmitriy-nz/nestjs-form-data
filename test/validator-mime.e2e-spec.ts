@@ -11,7 +11,7 @@ describe('Express - Mime-type validator', () => {
     app = await createTestModule();
   });
 
-  it('[valid] Mime validator', () => {
+  it('[valid] Mime validator (string)', () => {
     return request
       .default(app.getHttpServer())
       .post('/mime-validator')
@@ -19,7 +19,7 @@ describe('Express - Mime-type validator', () => {
       .expect(200);
   });
 
-  it('[invalid] Mime validator', () => {
+  it('[invalid] Mime validator (string)', () => {
     return request
       .default(app.getHttpServer())
       .post('/mime-validator')
@@ -28,6 +28,48 @@ describe('Express - Mime-type validator', () => {
       .expect({
         statusCode: 400,
         message: ['File must be of one of the types image/webp'],
+        error: 'Bad Request',
+      });
+  });
+
+  it('[valid] Mime validator (string partial)', () => {
+    return request
+      .default(app.getHttpServer())
+      .post('/mime-validator')
+      .attach('filePartial', path.resolve(__dirname, 'test-files', 'img.webp'))
+      .expect(200);
+  });
+
+  it('[invalid] Mime validator (string partial)', () => {
+    return request
+      .default(app.getHttpServer())
+      .post('/mime-validator')
+      .attach('filePartial', path.resolve(__dirname, 'test-files', 'file.txt'))
+      .expect(400)
+      .expect({
+        statusCode: 400,
+        message: ['File must be of one of the types image/*'],
+        error: 'Bad Request',
+      });
+  });
+
+  it('[valid] Mime validator (regex)', () => {
+    return request
+      .default(app.getHttpServer())
+      .post('/mime-validator')
+      .attach('fileRegex', path.resolve(__dirname, 'test-files', 'img.webp'))
+      .expect(200);
+  });
+
+  it('[invalid] Mime validator (regex)', () => {
+    return request
+      .default(app.getHttpServer())
+      .post('/mime-validator')
+      .attach('fileRegex', path.resolve(__dirname, 'test-files', 'file.txt'))
+      .expect(400)
+      .expect({
+        statusCode: 400,
+        message: ['File must be of one of the types /^image\\/webp$/'],
         error: 'Bad Request',
       });
   });
@@ -103,6 +145,48 @@ describe('Fastify - Mime-type validator', () => {
       .expect({
         statusCode: 400,
         message: ['File must be of one of the types image/webp'],
+        error: 'Bad Request',
+      });
+  });
+
+  it('[valid] Mime validator (string partial)', () => {
+    return request
+      .default(app.getHttpServer())
+      .post('/mime-validator')
+      .attach('filePartial', path.resolve(__dirname, 'test-files', 'img.webp'))
+      .expect(200);
+  });
+
+  it('[invalid] Mime validator (string partial)', () => {
+    return request
+      .default(app.getHttpServer())
+      .post('/mime-validator')
+      .attach('filePartial', path.resolve(__dirname, 'test-files', 'file.txt'))
+      .expect(400)
+      .expect({
+        statusCode: 400,
+        message: ['File must be of one of the types image/*'],
+        error: 'Bad Request',
+      });
+  });
+
+  it('[valid] Mime validator (regex)', () => {
+    return request
+      .default(app.getHttpServer())
+      .post('/mime-validator')
+      .attach('fileRegex', path.resolve(__dirname, 'test-files', 'img.webp'))
+      .expect(200);
+  });
+
+  it('[invalid] Mime validator (regex)', () => {
+    return request
+      .default(app.getHttpServer())
+      .post('/mime-validator')
+      .attach('fileRegex', path.resolve(__dirname, 'test-files', 'file.txt'))
+      .expect(400)
+      .expect({
+        statusCode: 400,
+        message: ['File must be of one of the types /^image\\/webp$/'],
         error: 'Bad Request',
       });
   });

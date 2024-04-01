@@ -167,7 +167,8 @@ export class NestjsFormDataController {
 - `isGlobal` - If you want the module to be available globally. Once you import the module and configure it, it will be available globally
 - `storage` - The type of storage logic for the uploaded file  (Default MemoryStoredFile)
 - `fileSystemStoragePath` - The path to the directory for storing temporary files, used only for `storage: FileSystemStoredFile` (Default: /tmp/nestjs-tmp-storage)  
-- `autoDeleteFile` - Automatically delete files after the request ends (Default true)
+- `cleanupAfterSuccessHandle` - If set to true, all processed and uploaded files will be deleted after successful processing by the final method. This means that the `delete` method will be called on all files (StoredFile)
+- `cleanupAfterFailedHandle` - If set to true, all processed and uploaded files will be deleted after unsuccessful processing by the final method. This means that the `delete` method will be called on all files (StoredFile)
 - `limits` - [busboy](https://www.npmjs.com/package/busboy#busboy-methods) limits configuration. Constraints in this declaration are handled at the serialization stage, so using these parameters is preferable for performance.
 ## File storage types
 ### Memory storage
@@ -216,8 +217,21 @@ The library uses two sources to get the mime type for the file:
 The default is simple mode, which does not check the data source, but you can pass a second argument to strictly check the mime-type and data source.  
 You can also get the mime type and data source via the `get mimeTypeWithSource():MetaFieldSource` getter on the `StoredFile`
 
+
 ```ts
-@HasMimeType(allowedMimeTypes: string[] | string, strictSource?: MetaSource | ValidationOptions, validationOptions?: ValidationOptions)
+type AllowedMimeTypes = Array<AllowedMimeType>
+type AllowedMimeType = string | RegExp;
+
+@HasMimeType(allowedMimeTypes: AllowedMimeTypes | AllowedMimeType, strictSource?: MetaSource | ValidationOptions, validationOptions?: ValidationOptions)
+```
+
+You can also use partial matching, just pass the unimportant parameter as `*`, for example:
+```ts
+@HasMimeType('image/*')
+```
+also as array:
+```ts
+@HasMimeType(['image/*', 'text/*'])
 ```
 
 ### HasExtension
