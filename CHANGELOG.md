@@ -1,3 +1,6 @@
+### v1.9.8
+- Updated `README.md`, clarified `class-validator` pipe configuration
+
 ### v1.9.7
 - `autoDeleteFile` config field separated to two fields: `cleanupAfterSuccessHandle` and `cleanupAfterFailedHandle`
 - Extended `HasMimeType` validator, added regex support and asterisk match

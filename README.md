@@ -4,7 +4,7 @@
 
 
 
-# Description
+# 💭 Description
 nestjs-form-data is a [NestJS](https://github.com/nestjs/nest) middleware for handling multipart/form-data, which is primarily used for uploading files.
 - Process files and strings, serialize form-data to object
 - Process files in nested objects
@@ -18,10 +18,32 @@ The files in the request are transformed into objects.
 
 [Changelog](CHANGELOG.md)
 
-## Installation
+## ⏳ Installation
 ```sh
-$ npm install nestjs-form-data
+# npm
+npm install nestjs-form-data
+# yarn
+yarn add nestjs-form-data
 ```
+This module has `class-validator` and `class-transformer` as a **required** peed dependencies.  
+Read more about validation pipe in the [official docs page](https://docs.nestjs.com/techniques/validation#using-the-built-in-validationpipe).  
+Make sure that you already have these and enable global validation pipe:
+```sh
+# npm
+npm install class-validator class-transformer
+# yarn
+yarn add class-validator class-transformer
+```
+Register a global validation pipe in `main.ts` file inside `bootstrap` function:
+```ts
+//main.ts
+app.useGlobalPipes(
+  new ValidationPipe({
+    transform: true // Transform is recomended configuration for avoind issues with arrays of files transformations
+  })
+);
+```
+
 Add the module to your application
 ```ts
 @Module({
@@ -32,7 +54,7 @@ Add the module to your application
 export class AppModule {
 }
 ```
-# Usage
+# 🪄 Usage
 Apply `@FormDataRequest()` decorator to your controller method
 ```ts
 @Controller()
