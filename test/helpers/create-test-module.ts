@@ -1,13 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { TestModule } from '../test-module/test.module';
+import { ValidationPipeOptions } from '@nestjs/common/pipes/validation.pipe';
 
 export async function createTestModule(
-  config: any = {},
+  config: any = {}, validationPipeOptions: ValidationPipeOptions = {
+    transform: true,
+  }
 ): Promise<INestApplication | NestFastifyApplication> {
   const moduleFixture: TestingModule = await Test.createTestingModule({
     imports: [TestModule.config(config)],
@@ -26,6 +29,10 @@ export async function createTestModule(
   } else {
     app = moduleFixture.createNestApplication();
   }
+
+  app.useGlobalPipes(
+    new ValidationPipe(validationPipeOptions),
+  );
 
   await app.init();
 

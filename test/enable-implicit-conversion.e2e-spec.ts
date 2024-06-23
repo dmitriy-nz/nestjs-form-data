@@ -4,11 +4,15 @@ import * as request from 'supertest';
 import path from 'path';
 import { createTestModule } from './helpers/create-test-module';
 
-describe('Express - Array files uploads', () => {
+describe('Express - transform enableImplicitConversion', () => {
   let app: INestApplication;
 
   beforeEach(async () => {
-    app = await createTestModule();
+    app = await createTestModule({}, {
+      transform: true, transformOptions: {
+        enableImplicitConversion: true,
+      },
+    });
   });
 
   it('Valid files upload - array dto - array files', () => {
@@ -33,50 +37,39 @@ describe('Express - Array files uploads', () => {
       .expect([{ filename: 'file.txt', mimetype: 'text/plain' }]);
   });
 
-  it('Mime type validator', () => {
+  it('Valid file upload - single dto - single file', () => {
     return request
       .default(app.getHttpServer())
-      .post('/array-files')
-      .attach('files[]', path.resolve(__dirname, 'test-files', 'file.txt'))
-      .attach('files[]', path.resolve(__dirname, 'test-files', 'file.csv'))
-      .expect(400);
+      .post('/single-file')
+      .attach('file', path.resolve(__dirname, 'test-files', 'file.txt'))
+      .expect(200)
+      .expect({ filename: 'file.txt', mimetype: 'text/plain' });
   });
 
-  it('Max file size validator', () => {
+  it('Invalid file upload - single dto - array file', () => {
     return request
       .default(app.getHttpServer())
-      .post('/array-files')
-      .attach('files[]', path.resolve(__dirname, 'test-files', 'file.txt'))
-      .attach(
-        'files[]',
-        path.resolve(__dirname, 'test-files', 'file-large.txt'),
-      )
-      .expect(400);
-  });
-
-  it('Min file size validator', () => {
-    return request
-      .default(app.getHttpServer())
-      .post('/array-files')
-      .attach('files[]', path.resolve(__dirname, 'test-files', 'file.txt'))
-      .attach(
-        'files[]',
-        path.resolve(__dirname, 'test-files', 'file-small.txt'),
-      )
+      .post('/single-file')
+      .attach('file', path.resolve(__dirname, 'test-files', 'file.txt'))
+      .attach('file', path.resolve(__dirname, 'test-files', 'file.txt'))
       .expect(400);
   });
 });
 
-describe('Fastify - Array files uploads', () => {
+describe('Fastify - transform enableImplicitConversion', () => {
   let app: NestFastifyApplication;
 
   beforeEach(async () => {
     app = (await createTestModule({
       fastify: true,
+    }, {
+      transform: true, transformOptions: {
+        enableImplicitConversion: true,
+      },
     })) as NestFastifyApplication;
   });
 
-  it('Valid files upload', () => {
+  it('Valid files upload - array dto - array files', () => {
     return request
       .default(app.getHttpServer())
       .post('/array-files')
@@ -89,7 +82,7 @@ describe('Fastify - Array files uploads', () => {
       ]);
   });
 
-  it('Valid single file as array', () => {
+  it('Valid files upload - array dto - single file', () => {
     return request
       .default(app.getHttpServer())
       .post('/array-files')
@@ -98,36 +91,21 @@ describe('Fastify - Array files uploads', () => {
       .expect([{ filename: 'file.txt', mimetype: 'text/plain' }]);
   });
 
-  it('Mime type validator', () => {
+  it('Valid file upload - single dto - single file', () => {
     return request
       .default(app.getHttpServer())
-      .post('/array-files')
-      .attach('files[]', path.resolve(__dirname, 'test-files', 'file.txt'))
-      .attach('files[]', path.resolve(__dirname, 'test-files', 'file.csv'))
-      .expect(400);
+      .post('/single-file')
+      .attach('file', path.resolve(__dirname, 'test-files', 'file.txt'))
+      .expect(200)
+      .expect({ filename: 'file.txt', mimetype: 'text/plain' });
   });
 
-  it('Max file size validator', () => {
+  it('Invalid file upload - single dto - array file', () => {
     return request
       .default(app.getHttpServer())
-      .post('/array-files')
-      .attach('files[]', path.resolve(__dirname, 'test-files', 'file.txt'))
-      .attach(
-        'files[]',
-        path.resolve(__dirname, 'test-files', 'file-large.txt'),
-      )
-      .expect(400);
-  });
-
-  it('Min file size validator', () => {
-    return request
-      .default(app.getHttpServer())
-      .post('/array-files')
-      .attach('files[]', path.resolve(__dirname, 'test-files', 'file.txt'))
-      .attach(
-        'files[]',
-        path.resolve(__dirname, 'test-files', 'file-small.txt'),
-      )
+      .post('/single-file')
+      .attach('file', path.resolve(__dirname, 'test-files', 'file.txt'))
+      .attach('file', path.resolve(__dirname, 'test-files', 'file.txt'))
       .expect(400);
   });
 });

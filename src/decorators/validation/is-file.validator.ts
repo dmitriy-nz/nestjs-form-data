@@ -25,6 +25,12 @@ export function IsFile(validationOptions?: ValidationOptions): PropertyDecorator
     },
   }, validationOptions);
 
+  const transformEnableImplicitConversion = Transform(params => {
+    return params.obj[params.key]
+  })
+
+
+
   if(validationOptions?.each){
     return applyDecorators(
       Transform((params: TransformFnParams) => {
@@ -33,12 +39,15 @@ export function IsFile(validationOptions?: ValidationOptions): PropertyDecorator
         }
         return params.value;
       }),
+      transformEnableImplicitConversion,
       isFileValidator,
-      IsArray(Object.assign({},validationOptions || {}, {each: false}))
-    )
+      IsArray(Object.assign({},validationOptions || {}, { each: false }))
+    );
   }
 
-  return isFileValidator
-
+  return applyDecorators(
+    transformEnableImplicitConversion,
+    isFileValidator
+  );
 
 }

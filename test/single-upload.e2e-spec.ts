@@ -11,13 +11,22 @@ describe('Express - Single file uploads', () => {
     app = await createTestModule();
   });
 
-  it('Valid file upload', () => {
+  it('Valid file upload - single dto - single file', () => {
     return request
       .default(app.getHttpServer())
       .post('/single-file')
       .attach('file', path.resolve(__dirname, 'test-files', 'file.txt'))
       .expect(200)
       .expect({ filename: 'file.txt', mimetype: 'text/plain' });
+  });
+
+  it('Invalid file upload - single dto - array file', () => {
+    return request
+      .default(app.getHttpServer())
+      .post('/single-file')
+      .attach('file', path.resolve(__dirname, 'test-files', 'file.txt'))
+      .attach('file', path.resolve(__dirname, 'test-files', 'file.txt'))
+      .expect(400);
   });
 
   it('Mime type validator', () => {
