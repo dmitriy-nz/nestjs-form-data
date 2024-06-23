@@ -9,6 +9,8 @@ import { MimeTypeValidatorDto } from '../dto/MimeTypeValidator.dto';
 import { UploadOptionalFileDto } from '../dto/UploadOptionalFile.dto';
 import { CustomErrorSingleDto } from '../dto/CustomErrorSingle.dto';
 import { CustomErrorArrayDto } from '../dto/CustomErrorArray.dto';
+import { UploadOptionalExposedFieldSingleFileDto } from '../dto/UploadOptionalExposedFieldSingleFile.dto';
+import { UploadOptionalExposedFieldArrayFileDto } from '../dto/UploadOptionalExposedFieldArrayFile.dto';
 
 @Controller('')
 export class TestController {
@@ -96,6 +98,22 @@ export class TestController {
   @FormDataRequest()
   @HttpCode(HttpStatus.OK)
   optionalFile(@Body() dto: UploadOptionalFileDto) {
+    return dto;
+  }
+
+  @Post('optional-exposed-single')
+  @UsePipes(new ValidationPipe({transform: true}))
+  @FormDataRequest()
+  @HttpCode(HttpStatus.OK)
+  optionalExposedFieldSingleFile(@Body() dto: UploadOptionalExposedFieldSingleFileDto) {
+    return dto;
+  }
+
+  @Post('optional-exposed-array')
+  @UsePipes(new ValidationPipe({transform: true}))
+  @FormDataRequest()
+  @HttpCode(HttpStatus.OK)
+  optionalExposedFieldArrayFiles(@Body() dto: UploadOptionalExposedFieldArrayFileDto) {
     return dto;
   }
 

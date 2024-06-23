@@ -33,10 +33,14 @@ export function IsFile(validationOptions?: ValidationOptions): PropertyDecorator
 
   if(validationOptions?.each){
     return applyDecorators(
+      // Force transform to an array of files then we have each mode and only one file in the field
       Transform((params: TransformFnParams) => {
-        if(!Array.isArray(params.value)){
-          return [ params.value ];
+        // If value isn't array and isn't empty, arraying it
+        // We can get empty value, do nothing in this case
+        if(!Array.isArray(params.value) && params.value){
+          return [ params.value ]
         }
+
         return params.value;
       }),
       transformEnableImplicitConversion,

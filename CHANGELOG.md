@@ -1,9 +1,12 @@
+### v1.9.91
+- Resolved [Issue 55](https://github.com/dmitriy-nz/nestjs-form-data/issues/55)
+- Added test cases for `Exposed` decorated fields
+
 ### v1.9.9
 - Resolved [Issue 60](https://github.com/dmitriy-nz/nestjs-form-data/issues/60)
 - Added test cases for `enableImplicitConversion` field in the `class-validator` transform options
 - Modified `IsFile` validator to handle `enableImplicitConversion` param
 - Some other test cases were improved
-
 
 ### v1.9.8
 - Updated `README.md`, clarified `class-validator` pipe configuration
