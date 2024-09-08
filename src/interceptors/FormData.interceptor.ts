@@ -59,7 +59,7 @@ export class FormDataInterceptor implements NestInterceptor {
 
       catchError((err) => {
         if (config.cleanupAfterFailedHandle || config.autoDeleteFile) formReader.deleteFiles();
-        return throwError(err);
+        return throwError(() => err);
       }),
 
       tap(() => {
