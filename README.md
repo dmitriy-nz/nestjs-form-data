@@ -39,7 +39,7 @@ Register a global validation pipe in `main.ts` file inside `bootstrap` function:
 //main.ts
 app.useGlobalPipes(
   new ValidationPipe({
-    transform: true // Transform is recomended configuration for avoind issues with arrays of files transformations
+    transform: true // Transform is recomended configuration for avoiding issues with arrays of files transformations
   })
 );
 ```
