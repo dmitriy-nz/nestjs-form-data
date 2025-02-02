@@ -1,3 +1,7 @@
+## v1.9.93
+- Merged PR [Add support for nestjs 11](https://github.com/dmitriy-nz/nestjs-form-data/pull/66)
+- Added "engines" section and `.nvmrc` file
+
 ### v1.9.91
 - Resolved [Issue 55](https://github.com/dmitriy-nz/nestjs-form-data/issues/55)
 - Added test cases for `Exposed` decorated fields

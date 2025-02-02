@@ -1,6 +1,6 @@
 {
   "name": "nestjs-form-data",
-  "version": "1.9.91",
+  "version": "1.9.93",
   "description": "NestJS middleware for handling multipart/form-data, which is primarily used for uploading files",
   "main": "dist/index",
   "types": "dist/index",
@@ -69,5 +69,8 @@
     "nestjs validate file",
     "nestjs store file",
     "file middleware"
-  ]
+  ],
+  "engines": {
+    "node": " >=20"
+  }
 }
